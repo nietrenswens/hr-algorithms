@@ -18,19 +18,16 @@ public class NumArray1D<T> : Array1D<T>, INumArray1D<T> where T : IComparable<T>
 
     public T? Max()
     {
-        //ToDo
         return Aggregate((T a, T b) => a > b ? a : b);
     }
 
     public T? Min()
     {
-        //ToDo
         return Aggregate((T a, T b) => a < b ? a : b);
     }
 
     public T? Product(bool IgnoreZeros = true)
     {
-        //ToDo
         if (IgnoreZeros)
             return Aggregate((T a, T b) => {
                 if (a.Equals(default)) return b;

@@ -53,7 +53,28 @@ public class MultiArray : IMultiArray
     public static T?[] MaxCol<T>(T[][] arrJagged) where T : INumber<T>
     {
         //ToDo
-        throw new NotImplementedException();
+        // calculate number of cols
+        int numberOfCols = calculateNumOfCols(arrJagged);
+        T[] sums = new T[numberOfCols];
+        for (int i = 0; i < numberOfCols; i++)
+        {
+            T[] column = getCol(arrJagged, i);
+            for (int j = 0; j < column.Length; j++)
+            {
+                sums[i] += column[j];
+            }
+        }
+        int highestIndex = 0;
+        T highestSum = default!;
+        for (int sumIndex = 0; sumIndex < sums.Length; sumIndex++)
+        {
+            if (sums[sumIndex] > highestSum)
+            {
+                highestIndex = sumIndex;
+                highestSum = sums[sumIndex];
+            }
+        }
+        return getCol(arrJagged, highestIndex);
     }
 
     public static T[][]? Split<T>(Tuple<T, T, T>[] input)
@@ -66,6 +87,33 @@ public class MultiArray : IMultiArray
     {        
         //ToDo
         throw new NotImplementedException();
+    }
+
+    private static T[] getCol<T>(T[][] arrJagged, int colindex)
+    {
+        T[] columValues = new T[arrJagged.Length];
+        int numberOfCols = calculateNumOfCols(arrJagged);
+        if (colindex > numberOfCols - 1)
+            throw new ArgumentOutOfRangeException();
+        for(int row = 0; row < arrJagged.Length; row++)
+        {
+            for(int col = 0; col < arrJagged[row].Length; row++)
+            {
+                if (col == colindex)
+                    columValues[row] = arrJagged[row][col];
+            }
+        }
+        return columValues;
+    }
+
+    private static int calculateNumOfCols<T>(T[][] arrJagged)
+    {
+        int maxcollength = 0;
+        for(int rows = 0; rows < arrJagged.GetLength(0); rows++)
+        {
+            if (arrJagged[rows].Length > maxcollength) maxcollength = arrJagged[rows].Length;
+        }
+        return maxcollength;
     }
 
     private static T[] GetRowSums<T>(T[][] arrJagged) where T : INumber<T>
