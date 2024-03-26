@@ -1,32 +1,26 @@
-﻿int[] Bubble(int[] arr) // Complexity = O(N^2)
+﻿public class Program
 {
-    bool swapped = true;
-    while (swapped)
+    public static void Main()
     {
-        swapped = false;
-        for (int i = 0; i < arr.Length - 1; i++)
+        System.Console.WriteLine(FibonacciRec(10));
+    }
+
+    static int Fibonacci(int n)
+    {
+        if (n < 2) return n;
+        int fp = 0, fc = 1;
+        for (int i = 2; i <= n; i++)
         {
-            if (arr[i] > arr[i+1])
-            {
-                swapped = true;
-                var temp = arr[i];
-                arr[i] = arr[i + 1];
-                arr[i + 1] = temp;
-            }
+            int newF = fp+fc;
+            fp = fc;
+            fc = newF;   
         }
+        return fc;
     }
-    return arr;
-}
 
-int[] pp = { 1, 5, 4, 2, 3, 9, 6, 7, -4, -2, -4, 100, 5678, 32, 45, 18, -123, -9 };
-void PrintArray(int[] arr)
-{
-    foreach(var v in arr)
+    static int FibonacciRec(int n)
     {
-        System.Console.Write(v + ", ");
+        if (n<2) return n;
+        return FibonacciRec(n-1) + FibonacciRec(n-2);
     }
-    System.Console.WriteLine();
 }
-
-PrintArray(pp);
-PrintArray(Bubble(pp));
